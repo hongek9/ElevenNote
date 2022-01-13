@@ -22,6 +22,7 @@ namespace ElevenNote.Services
             var entity = new Note()
             {
                 OwnerId = _userId,
+                CategoryId = model.CategoryId,
                 Title = model.Title,
                 Content = model.Content,
                 CreatedUtc = DateTimeOffset.Now
@@ -41,6 +42,7 @@ namespace ElevenNote.Services
                 var query = ctx.Notes.Where(e => e.OwnerId == _userId).Select(e => new NoteListItem
                 {
                     NoteId = e.NoteId,
+                    CategoryId = e.CategoryId,
                     Title = e.Title,
                     CreatedUtc = e.CreatedUtc
                 });
@@ -57,6 +59,7 @@ namespace ElevenNote.Services
                 return new NoteDetail
                 {
                     NoteId = entity.NoteId,
+                    CategoryId = entity.CategoryId,
                     Title = entity.Title,
                     Content = entity.Content,
                     CreatedUtc = entity.CreatedUtc,
@@ -71,6 +74,7 @@ namespace ElevenNote.Services
             {
                 var entity = ctx.Notes.Single(e => e.NoteId == model.NoteId && e.OwnerId == _userId);
 
+                entity.CategoryId = model.CategoryId;
                 entity.Title = model.Title;
                 entity.Content = model.Content;
                 entity.ModifiedUtc = DateTimeOffset.UtcNow;
